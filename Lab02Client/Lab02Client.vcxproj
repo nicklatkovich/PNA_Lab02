@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C7BB0C7D-1544-4262-B6BC-E1CDDAAB833F}</ProjectGuid>
-    <RootNamespace>Lab02_Server</RootNamespace>
+    <ProjectGuid>{39D70CD9-1E10-4ECD-80C7-BD7F04989FDE}</ProjectGuid>
+    <RootNamespace>Lab02Client</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -112,7 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ServerSource.cpp" />
+    <ClCompile Include="ClientSource.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
