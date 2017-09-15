@@ -2,14 +2,7 @@
 #include "Utils.h"
 
 void main( ) {
-	WSAData wsaData;
-	if (WSAStartup(MAKEWORD(2, 1), &wsaData) != 0) {
-		pnautils::throwWSAError("Startup");
-	}
-	SOCKADDR_IN addr;
-	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	addr.sin_port = htons(4814);
-	addr.sin_family = AF_INET;
+	SOCKADDR_IN addr = pnautils::startSession( );
 	SOCKET newConnection;
 	std::cout << "Client is created" << std::endl;
 	std::cout << "Press any key to connect to server";
@@ -19,6 +12,45 @@ void main( ) {
 		pnautils::throwWSAError("Connection to server");
 	}
 	std::cout << "Connected to server" << std::endl;
+	while (true) {
+		std::cout << "Select command:" << std::endl;
+		std::cout << "1. Send 1 message" << std::endl;
+		std::cout << "2. Send N messages" << std::endl;
+		std::cout << "3. Disconnect" << std::endl;
+		std::string command;
+		std::cin >> command;
+		char message[256] = "";
+		if (command == "1") {
+			std::cout << "Enter message: " << std::endl;
+			std::cin.ignore( );
+			std::cin.getline(message, sizeof(message));
+			send(newConnection, message, sizeof(message), NULL);
+			recv(newConnection, message, sizeof(message), NULL);
+		} else if (command == "2") {
+			std::cout << "Enter message: " << std::endl;
+			std::cin.ignore( );
+			std::cin.getline(message, sizeof(message));
+			while (true) {
+				try {
+					std::cout << "Enter the number of times to send message to server: " << std::endl;
+					char numStr[6];
+					//std::cin.ignore( );
+					std::cin.getline(numStr, sizeof(numStr));
+					int num = atoi(numStr);
+					for (int i = 0; i < num; i++) {
+						send(newConnection, message, sizeof(message), NULL);
+						recv(newConnection, message, sizeof(message), NULL);
+					}
+					break;
+				} catch (...) {
+
+				}
+			}
+		} else if (command == "3") {
+			send(newConnection, message, 256, NULL);
+			break;
+		}
+	}
 #ifdef _DEBUG
 	std::cout << "Press any key to exit...";
 	std::cin.get( );

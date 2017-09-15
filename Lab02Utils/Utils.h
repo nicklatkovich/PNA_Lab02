@@ -7,6 +7,7 @@
 namespace pnautils {
 	std::string getErrorMsgText(int code);
 	void throwWSAError(std::string process);
+	SOCKADDR_IN startSession( );
 }
 
 namespace pnautils {
@@ -32,5 +33,16 @@ namespace pnautils {
 	void throwWSAError(std::string process) {
 		throw std::exception(("Error at " + process + ": " + getErrorMsgText(WSAGetLastError( ))).c_str( ));
 
+	}
+	SOCKADDR_IN startSession( ) {
+		WSAData wsaData;
+		if (WSAStartup(MAKEWORD(2, 1), &wsaData) != 0) {
+			pnautils::throwWSAError("Startup");
+		}
+		SOCKADDR_IN addr;
+		addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+		addr.sin_port = htons(4814);
+		addr.sin_family = AF_INET;
+		return addr;
 	}
 }
