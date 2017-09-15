@@ -4,7 +4,7 @@
 void main( ) {
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(2, 1), &wsaData) != 0) {
-		//pnautils::throwWSAError("Startup");
+		pnautils::throwWSAError(std::string("Startup"));
 	}
 	SOCKADDR_IN addr;
 	int addrLength = sizeof(addr);
@@ -15,9 +15,11 @@ void main( ) {
 	bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
 	listen(sListen, SOMAXCONN);
 	SOCKET newConnection;
+	std::cout << "Server created" << std::endl;
+	std::cout << "W8ing 4 connection..." << std::endl;
 	newConnection = accept(sListen, (SOCKADDR*)&addr, &addrLength);
 	if (newConnection == 0) {
-		//pnautils::throwWSAError("Create new connection");
+		pnautils::throwWSAError(std::string("Create new connection"));
 	}
 	std::cout << "Client connected" << std::endl;
 #ifdef _DEBUG
