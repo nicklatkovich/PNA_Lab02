@@ -38,8 +38,12 @@ void main( ) {
 					std::cin.getline(numStr, sizeof(numStr));
 					int num = atoi(numStr);
 					for (int i = 0; i < num; i++) {
-						send(newConnection, message, sizeof(message), NULL);
-						recv(newConnection, message, sizeof(message), NULL);
+						std::string newMessage = message;
+						newMessage += " ";
+						newMessage += std::to_string(i);
+						send(newConnection, newMessage.c_str( ), newMessage.length( ) + 1, NULL);
+						char recvMessage[256];
+						recv(newConnection, recvMessage, sizeof(recvMessage), NULL);
 					}
 					break;
 				} catch (...) {
@@ -55,4 +59,6 @@ void main( ) {
 	std::cout << "Press any key to exit...";
 	std::cin.get( );
 #endif // _DEBUG
+	closesocket(newConnection);
+	WSACleanup( );
 }
