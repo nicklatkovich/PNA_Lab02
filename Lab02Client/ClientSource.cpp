@@ -1,5 +1,8 @@
+#define MESSAGEGETTER "Enter message: "
+
 #include <iostream>
 #include "Utils.h"
+#include <time.h>
 
 void main( ) {
 	SOCKADDR_IN addr = pnautils::startSession( );
@@ -21,13 +24,13 @@ void main( ) {
 		std::cin >> command;
 		char message[256] = "";
 		if (command == "1") {
-			std::cout << "Enter message: " << std::endl;
+			std::cout << MESSAGEGETTER;
 			std::cin.ignore( );
 			std::cin.getline(message, sizeof(message));
 			send(newConnection, message, sizeof(message), NULL);
 			recv(newConnection, message, sizeof(message), NULL);
 		} else if (command == "2") {
-			std::cout << "Enter message: " << std::endl;
+			std::cout << MESSAGEGETTER;
 			std::cin.ignore( );
 			std::cin.getline(message, sizeof(message));
 			while (true) {
@@ -37,6 +40,7 @@ void main( ) {
 					//std::cin.ignore( );
 					std::cin.getline(numStr, sizeof(numStr));
 					int num = atoi(numStr);
+					int startTime = clock( );
 					for (int i = 0; i < num; i++) {
 						std::string newMessage = message;
 						newMessage += " ";
@@ -45,6 +49,7 @@ void main( ) {
 						char recvMessage[256];
 						recv(newConnection, recvMessage, sizeof(recvMessage), NULL);
 					}
+					std::cout << "UsedTime: " << clock( ) - startTime << std::endl;
 					break;
 				} catch (...) {
 

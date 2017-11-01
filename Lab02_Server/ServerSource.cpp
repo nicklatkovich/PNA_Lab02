@@ -16,6 +16,7 @@ void main( ) {
 			pnautils::throwWSAError(std::string("Create new connection"));
 		}
 		std::cout << "Client connected" << std::endl;
+		std::cout << "IPv4: " << inet_ntoa(addr.sin_addr) << ":" << htons(addr.sin_port) << std::endl;
 		while (true) {
 			char recvMessage[256];
 			recv(newConnection, recvMessage, sizeof(recvMessage), NULL);
